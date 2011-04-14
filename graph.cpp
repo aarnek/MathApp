@@ -13,58 +13,31 @@ Graph::Graph(QString graph)
     minx = -6;
     RANGE = 0.024;
     qDebug() << RANGE;
-    parse(&graph);
+    parse(graph);
 }
-void Graph::parse(QString *function)
+void Graph::parse(QString function)
 {
     QStringList particles;
-    qDebug() << "jotein" << function->size();
-    /*bool is_next_minus = false;
-    int i = 0;
-    int prevint = 0;
-    int stringsize = function->size();
-    for(i=0;i<=stringsize;i++)
-    {
-        if(i == stringsize){
-            i++;
-            QString string;
-            string.append(function->mid(prevint,i-prevint));
-            if(string.contains('+')){string.remove(0,1);};
-            particles << string;
-        }
-        else if(function->at(i) == '+')
-        {
-            QString var;
-            if(i != 0)
-            {
-            var = function->mid(prevint,i-prevint);
-        }
-            if(is_next_minus && function->at(prevint) != '-')
-            {
-                var.prepend('-');
-            }
-            if(var.contains('+')){var.remove(0,1);};
-            particles << var;
-            prevint = i;
-            is_next_minus = false;
-        }
-        else if(function->at(i) == '-')
-        {
-            if(i != 0)
-            {
-                QString part = function->mid(prevint,i-prevint);
-                if(is_next_minus == true && function->at(prevint) != '-'){part.prepend('-');}
-                if(part.contains('+')){part.remove(0,1);};
-                particles << part;
-            }
-            is_next_minus = true;
-            prevint = i;
-        }
-        else{}
-    }
-    */
-    qDebug() << particles << " QPaireihin jako";
+    qDebug() << "jotein" << function.size();
+
+    QRegExp rx("([+-]?\\d*x\\^?\\d*)");
+    int pos = 0;
+
+    while ((pos = rx.indexIn(function, pos)) != -1) {
+         particles << rx.cap(1);
+         pos += rx.matchedLength();
+     }
+    qDebug() << particles << "eka kerta";
+    QRegExp rxp("(\\b[+-]\\d\\b)");
+    pos = 0;
+
+    while ((pos = rxp.indexIn(function, pos)) != -1) {
+         particles << rxp.cap(1);
+         pos += rxp.matchedLength();
+     }
+    qDebug() << particles << " toka";
     int j,prevj= 0;
+    int i;
     qreal multi=0;
     qreal pow=0;
     for(i=0;i <= particles.size()-1;i++)

@@ -11,7 +11,7 @@ public:
     Graph(QString);
     void make_pixels(Graphics *);
     QList<QRectF> getPixels();
-    void parse(QString *);
+    void parse(QString);
     qreal valueAt(qreal);
 private:
     qreal RANGE;
